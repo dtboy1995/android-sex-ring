@@ -1,5 +1,5 @@
-# android-sex-ring
-:ring:  a android ring view that can sweep angle [![Build Status](https://travis-ci.org/dtboy1995/android-sex-ring.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-ring)
+# android-sex-ring [![Build Status](https://travis-ci.org/dtboy1995/android-sex-ring.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-ring)
+:jack_o_lantern:  a android ring view that can sweep angle 
 
 # install
 - add to your project gradle file

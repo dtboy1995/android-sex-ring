@@ -10,13 +10,9 @@ android:
   components:
   - tools
   - platform-tools
-  - build-tools-26.0.1
+  - build-tools-26.0.2
   - android-26
   - extra-android-m2respository
-  licenses:
-  - 'android-sdk-preview-license-.+'
-  - 'android-sdk-license-.+'
-  - 'google-gdk-license-.+'
 
 sudo: required
 
