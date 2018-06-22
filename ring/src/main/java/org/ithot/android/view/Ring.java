@@ -18,17 +18,14 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import org.ithot.android.R;
+import org.ithot.android.view.listener.AVBaseCallback;
 
 public class Ring extends View {
 
-    public static final String TAG = "[SexArcView]";
-
-    public interface IAVCallback {
-        void step(int progress);
-    }
+    public static final String TAG = "[SexRing]";
 
     private static final String ANIMATE_PROPERTY = "progress";
-    private static final float MAX_PROGRESS = 100f;
+    public static final float MAX_PROGRESS = 100f;
     private static final int DEFAULT_DURATION = 2000;
     private static final int DEFAULT_START_ANGLE = 0;
     private static final int DEFAULT_SWEEP_ANGLE = 360;
@@ -36,6 +33,10 @@ public class Ring extends View {
     private static final int INTERPOLATOR_LINEAR = 0;
     private static final int INTERPOLATOR_ACCELERATE = 1;
     private static final int INTERPOLATOR_DECELERATE = 2;
+    private static final int CAP_ROUND = 0;
+    private static final int CAP_BUTT = 1;
+    private static final int CAP_SQUARE = 2;
+    private static final int DEFAULT_SHADOW_RADIUS = 8;
 
     private static final int DEFALUT_BACKGROUND_COLOR = Color.parseColor("#9E9E9E");
     private static final int DEFALUT_FOREGROUND_COLOR = Color.parseColor("#2195F2");
@@ -55,8 +56,7 @@ public class Ring extends View {
     private int startAngle;
     private int sweepAngle;
     private boolean canGo = true;
-    private IAVCallback callback;
-
+    private AVBaseCallback callback;
 
     public Ring(Context context) {
         super(context);
@@ -78,6 +78,7 @@ public class Ring extends View {
         foregroundPaint = new Paint();
         ovalRectF = new RectF();
         int strokeWidth;
+        Paint.Cap cap;
         if (attrs != null) {
             TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.Ring);
             strokeWidth = (int) ta.getDimension(R.styleable.Ring_strokeWidth, dp2px(DEFAULT_STROKE_WIDTH));
@@ -87,7 +88,7 @@ public class Ring extends View {
             foregroundPaint.setColor(ta.getColor(R.styleable.Ring_foregroundColor, DEFALUT_FOREGROUND_COLOR));
             animateDuration = ta.getInteger(R.styleable.Ring_animateDuration, DEFAULT_DURATION);
             boolean shadowEnable = ta.getBoolean(R.styleable.Ring_shadowEnable, false);
-            int _shadow = (int) (strokeWidth * 2f / 3f);
+            int _shadow = ta.getInt(R.styleable.Ring_shadowRadius, DEFAULT_SHADOW_RADIUS);
             if (shadowEnable) {
                 setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 backgroundPaint.setShadowLayer(_shadow, 0, 0,
@@ -98,7 +99,7 @@ public class Ring extends View {
             ovalIndent = (int) Math.ceil((strokeWidth) / 2f + _shadow);
 
             int _interpolator = ta.getInteger(R.styleable.Ring_animateType, INTERPOLATOR_LINEAR);
-                switch (_interpolator) {
+            switch (_interpolator) {
                 case INTERPOLATOR_LINEAR:
                     interpolator = LinearInterpolator.class;
                     break;
@@ -109,8 +110,23 @@ public class Ring extends View {
                     interpolator = DecelerateInterpolator.class;
                     break;
             }
+            int _cap = ta.getInt(R.styleable.Ring_strokeCap, CAP_ROUND);
+            switch (_cap) {
+                case CAP_ROUND:
+                    cap = Paint.Cap.ROUND;
+                    break;
+                case CAP_BUTT:
+                    cap = Paint.Cap.BUTT;
+                    break;
+                case CAP_SQUARE:
+                    cap = Paint.Cap.SQUARE;
+                    break;
+                default:
+                    cap = Paint.Cap.ROUND;
+            }
             ta.recycle();
         } else {
+            cap = Paint.Cap.ROUND;
             strokeWidth = dp2px(DEFAULT_STROKE_WIDTH);
             startAngle = DEFAULT_START_ANGLE;
             sweepAngle = DEFAULT_SWEEP_ANGLE;
@@ -125,19 +141,19 @@ public class Ring extends View {
         backgroundPaint.setAntiAlias(true);
         backgroundPaint.setStyle(Paint.Style.STROKE);
         backgroundPaint.setStrokeWidth(strokeWidth);
-        backgroundPaint.setStrokeCap(Paint.Cap.ROUND);
+        backgroundPaint.setStrokeCap(cap);
 
         foregroundPaint.setAntiAlias(true);
         foregroundPaint.setStyle(Paint.Style.STROKE);
         foregroundPaint.setStrokeWidth(strokeWidth);
-        foregroundPaint.setStrokeCap(Paint.Cap.ROUND);
+        foregroundPaint.setStrokeCap(cap);
     }
 
     public int getProgress() {
         return progress;
     }
 
-    public void setCallback(IAVCallback callback) {
+    public void setCallback(AVBaseCallback callback) {
         this.callback = callback;
     }
 
@@ -147,13 +163,29 @@ public class Ring extends View {
         }
         this.progress = progress;
         if (callback != null) {
-            callback.step(progress);
+            callback.call(progress);
         }
         invalidate();
     }
 
     public void setInterpolator(Class<? extends TimeInterpolator> interpolator) {
         this.interpolator = interpolator;
+    }
+
+    public int getStartAngle() {
+        return startAngle;
+    }
+
+    public void setStartAngle(int startAngle) {
+        this.startAngle = startAngle;
+    }
+
+    public int getSweepAngle() {
+        return sweepAngle;
+    }
+
+    public void setSweepAngle(int sweepAngle) {
+        this.sweepAngle = sweepAngle;
     }
 
     public void go(int progress, boolean animate) {
@@ -201,7 +233,10 @@ public class Ring extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int _width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        int _height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
+        int min = Math.min(_width, _height);
+        setMeasuredDimension(min, min);
         ovalRectF.set(ovalIndent + getPaddingLeft(),
                 ovalIndent + getPaddingTop(),
                 getMeasuredWidth() - ovalIndent - getPaddingRight(),

@@ -8,11 +8,17 @@
         <attr name="animateDuration" format="integer" />
         <attr name="sweepAngle" format="integer" />
         <attr name="shadowEnable" format="boolean" />
+        <attr name="shadowRadius" format="integer" />
         <attr name="shadowColor" format="reference|color" />
         <attr name="animateType" format="enum">
             <enum name="linear" value="0" />
             <enum name="accelerate" value="1" />
             <enum name="decelerate" value="2" />
+        </attr>
+        <attr name="strokeCap" format="enum">
+            <enum name="round" value="0" />
+            <enum name="butt" value="1" />
+            <enum name="square" value="2" />
         </attr>
     </declare-styleable>
 </resources>
