@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <org.ithot.android.view.RingView
+            android:id="@+id/ring_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:animateDuration="2000"
+            app:animateType="decelerate"
+            app:backgroundColor="#DADADE"
+            app:foregroundColor="#4CAF50"
+            app:shadowColor="#33333333"
+            app:shadowEnable="true"
+            app:shadowRadius="10"
+            app:startAngle="0"
+            app:onStep="step1"
+            app:strokeCap="round"
+            app:strokeWidth="8dp"
+            app:sweepAngle="360"
+            app:touchable="true" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:text="0"
+            android:textColor="#4CAF50"
+            android:textSize="50sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="[startAngle: 0, sweepAngle: 360]"
+        android:textColor="#646464"
+        android:textSize="20sp" />
+
+    <Button
+        android:onClick="go1"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="GO"
+        android:textColor="#646464"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <org.ithot.android.view.RingView
+            android:id="@+id/ring_view2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:animateDuration="2000"
+            app:animateType="decelerate"
+            app:backgroundColor="#DADADE"
+            app:foregroundColor="#FFEB3B"
+            app:shadowColor="#33333333"
+            app:shadowEnable="true"
+            app:onStep="step2"
+            app:shadowRadius="10"
+            app:startAngle="30"
+            app:strokeCap="round"
+            app:strokeWidth="8dp"
+            app:sweepAngle="300"
+            app:touchable="true" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:text="0"
+            android:textColor="#FFEB3B"
+            android:textSize="50sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="[startAngle: 30, sweepAngle: 300]"
+        android:textColor="#646464"
+        android:textSize="20sp" />
+
+    <Button
+        android:onClick="go2"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="GO"
+        android:textColor="#646464"
+        android:textSize="20sp" />
+</LinearLayout>

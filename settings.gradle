@@ -1,1 +1,1 @@
-include ':ring'
+include ':ring', ':example'
