@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -20,7 +21,7 @@ import android.view.animation.LinearInterpolator;
 import org.ithot.android.R;
 import org.ithot.android.view.listener.AVBaseCallback;
 
-public class Ring extends View {
+public class RingView extends View {
 
     public static final String TAG = "[SexRing]";
 
@@ -43,7 +44,7 @@ public class Ring extends View {
     private static final int DEFAULT_SHADOW_COLOR = Color.parseColor("#374046");
 
     private static final Class<? extends TimeInterpolator> DEFAULT_INTERPOLATOR = LinearInterpolator.class;
-    private static boolean DEBUG = false;
+    private boolean DEBUG = false;
 
     private Paint backgroundPaint;
     private Paint foregroundPaint;
@@ -57,18 +58,23 @@ public class Ring extends View {
     private int sweepAngle;
     private boolean canGo = true;
     private AVBaseCallback callback;
+    private boolean touchable;
+    private int longPressTimer = 500;
+    private long timer;
+    private float preX;
+    private float preY;
 
-    public Ring(Context context) {
+    public RingView(Context context) {
         super(context);
         init(null);
     }
 
-    public Ring(Context context, AttributeSet attrs) {
+    public RingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public Ring(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RingView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -80,25 +86,26 @@ public class Ring extends View {
         int strokeWidth;
         Paint.Cap cap;
         if (attrs != null) {
-            TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.Ring);
-            strokeWidth = (int) ta.getDimension(R.styleable.Ring_strokeWidth, dp2px(DEFAULT_STROKE_WIDTH));
-            startAngle = ta.getInteger(R.styleable.Ring_startAngle, DEFAULT_START_ANGLE);
-            sweepAngle = ta.getInteger(R.styleable.Ring_sweepAngle, DEFAULT_SWEEP_ANGLE);
-            backgroundPaint.setColor(ta.getColor(R.styleable.Ring_backgroundColor, DEFALUT_BACKGROUND_COLOR));
-            foregroundPaint.setColor(ta.getColor(R.styleable.Ring_foregroundColor, DEFALUT_FOREGROUND_COLOR));
-            animateDuration = ta.getInteger(R.styleable.Ring_animateDuration, DEFAULT_DURATION);
-            boolean shadowEnable = ta.getBoolean(R.styleable.Ring_shadowEnable, false);
-            int _shadow = ta.getInt(R.styleable.Ring_shadowRadius, DEFAULT_SHADOW_RADIUS);
+            TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.RingView);
+            strokeWidth = (int) ta.getDimension(R.styleable.RingView_strokeWidth, dp2px(DEFAULT_STROKE_WIDTH));
+            startAngle = ta.getInteger(R.styleable.RingView_startAngle, DEFAULT_START_ANGLE);
+            sweepAngle = ta.getInteger(R.styleable.RingView_sweepAngle, DEFAULT_SWEEP_ANGLE);
+            backgroundPaint.setColor(ta.getColor(R.styleable.RingView_backgroundColor, DEFALUT_BACKGROUND_COLOR));
+            foregroundPaint.setColor(ta.getColor(R.styleable.RingView_foregroundColor, DEFALUT_FOREGROUND_COLOR));
+            animateDuration = ta.getInteger(R.styleable.RingView_animateDuration, DEFAULT_DURATION);
+            touchable = ta.getBoolean(R.styleable.RingView_touchable, false);
+            boolean shadowEnable = ta.getBoolean(R.styleable.RingView_shadowEnable, false);
+            int _shadow = ta.getInt(R.styleable.RingView_shadowRadius, DEFAULT_SHADOW_RADIUS);
             if (shadowEnable) {
                 setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 backgroundPaint.setShadowLayer(_shadow, 0, 0,
-                        ta.getColor(R.styleable.Ring_shadowColor, DEFAULT_SHADOW_COLOR));
+                        ta.getColor(R.styleable.RingView_shadowColor, DEFAULT_SHADOW_COLOR));
             } else {
                 setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
             ovalIndent = (int) Math.ceil((strokeWidth) / 2f + _shadow);
 
-            int _interpolator = ta.getInteger(R.styleable.Ring_animateType, INTERPOLATOR_LINEAR);
+            int _interpolator = ta.getInteger(R.styleable.RingView_animateType, INTERPOLATOR_LINEAR);
             switch (_interpolator) {
                 case INTERPOLATOR_LINEAR:
                     interpolator = LinearInterpolator.class;
@@ -110,7 +117,7 @@ public class Ring extends View {
                     interpolator = DecelerateInterpolator.class;
                     break;
             }
-            int _cap = ta.getInt(R.styleable.Ring_strokeCap, CAP_ROUND);
+            int _cap = ta.getInt(R.styleable.RingView_strokeCap, CAP_ROUND);
             switch (_cap) {
                 case CAP_ROUND:
                     cap = Paint.Cap.ROUND;
@@ -172,6 +179,46 @@ public class Ring extends View {
         this.interpolator = interpolator;
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                timer = System.currentTimeMillis();
+                setPressed(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float x = event.getX();
+                float y = event.getY();
+                boolean isInside = (x > 0 && x < getWidth() && y > 0 && y < getHeight());
+                if (isPressed() != isInside) {
+                    setPressed(isInside);
+                }
+                if (Math.abs(x - preX) > 10 || Math.abs(y - preY) > 10) {
+                    if (touchable) {
+                        supply(event);
+                    }
+                } else {
+                    preX = x;
+                    preY = y;
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                setPressed(false);
+                break;
+            case MotionEvent.ACTION_UP:
+                if (isPressed()) {
+                    setPressed(false);
+                    if (System.currentTimeMillis() - timer > longPressTimer) {
+                        performLongClick();
+                    } else {
+                        performClick();
+                    }
+                }
+                break;
+        }
+        return true;
+    }
+
     public int getStartAngle() {
         return startAngle;
     }
@@ -182,6 +229,14 @@ public class Ring extends View {
 
     public int getSweepAngle() {
         return sweepAngle;
+    }
+
+    public void setTouchable(boolean touchable) {
+        this.touchable = touchable;
+    }
+
+    public void setLongPressTimer(int longPressTimer) {
+        this.longPressTimer = longPressTimer;
     }
 
     public void setSweepAngle(int sweepAngle) {
@@ -247,6 +302,43 @@ public class Ring extends View {
         if (DEBUG) {
             Log.d(TAG, trace.toString());
         }
+    }
+
+    private void supply(MotionEvent event) {
+        int width = (int) ovalRectF.width();
+        int height = (int) ovalRectF.height();
+        int halfW = width / 2;
+        int halfH = height / 2;
+        int centerX = (int) ovalRectF.centerX();
+        int centerY = (int) ovalRectF.centerY();
+        float x = event.getX();
+        float y = event.getY();
+        int distance = (int) Math.sqrt(Math.pow(y - centerY, 2) + Math.pow(x - centerX, 2));
+        if (distance > halfW + foregroundPaint.getStrokeWidth() || distance < halfW - foregroundPaint.getStrokeWidth() * 5) {
+            return;
+        }
+        //
+        double angle = Math.abs(Math.toDegrees(Math.atan((y - centerY) / (x - centerX))));
+        if (x >= 0 && x <= halfW) {
+            if (y >= 0 && y < halfH) {
+                angle = 90 + angle;
+            } else if (y >= halfH && y < height) {
+                angle = 90 - angle;
+            }
+        } else if (x > halfW && x <= width) {
+            if (y >= 0 && y < halfH) {
+                angle = 270 - angle;
+            } else if (y >= halfH && y < height) {
+                angle = 270 + angle;
+            }
+        }
+        int real = startAngle - DEFAULT_START_ANGLE;
+        if (angle > real + sweepAngle || angle < real) {
+            return;
+        }
+        int p = (int) (MAX_PROGRESS * (angle - real) / sweepAngle);
+        debug(p);
+        setProgress(p);
     }
 
     private int calDegree() {

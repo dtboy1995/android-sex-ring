@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="Ring">
+    <declare-styleable name="RingView">
         <attr name="strokeWidth" format="reference|dimension" />
         <attr name="backgroundColor" format="reference|color" />
         <attr name="foregroundColor" format="reference|color" />
@@ -9,6 +9,7 @@
         <attr name="sweepAngle" format="integer" />
         <attr name="shadowEnable" format="boolean" />
         <attr name="shadowRadius" format="integer" />
+        <attr name="touchable" format="boolean" />
         <attr name="shadowColor" format="reference|color" />
         <attr name="animateType" format="enum">
             <enum name="linear" value="0" />

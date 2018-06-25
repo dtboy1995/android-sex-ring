@@ -1,6 +1,6 @@
 package org.ithot.android.view.listener;
 
-import org.ithot.android.view.Ring;
+import org.ithot.android.view.RingView;
 
 public abstract class AVRangeMapCallback extends AVBaseCallback {
 
@@ -13,7 +13,7 @@ public abstract class AVRangeMapCallback extends AVBaseCallback {
     }
 
     public int calRange(int _progress) {
-        float unit = (max - min) / Ring.MAX_PROGRESS;
+        float unit = (max - min) / RingView.MAX_PROGRESS;
         return (int) (unit * _progress + min);
     }
 }
