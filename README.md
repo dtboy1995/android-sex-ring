@@ -65,7 +65,7 @@ rv.setCallback(new AVRangeMapCallback(-20, 30) {
 # attrs
 
 name | type | desc
-- | :-: | :-:
+:-: | :-: | :-:
 strokeWidth | reference,dimension | dp, @dimen/
 backgroundColor | reference,color | #ffffff, @color/
 foregroundColor | reference,color | #ffffff, @color/
