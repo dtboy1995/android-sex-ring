@@ -77,7 +77,7 @@ rv.setCallback(new AVRangeMapCallback(-20, 30) {
 # attrs
 
 name | type | sample |description
-:- | :-: | :-:
+:- | :-: | :-: | :-
 strokeWidth | `reference`&nbsp;`dimension` | 8dp&nbsp;@dimen/ | the ring width
 backgroundColor | `reference`&nbsp;`color` | #DADADE&nbsp;@color/ | the background color of the ring
 foregroundColor | `reference`&nbsp;`color` | #00BCD3&nbsp;@color/ | the foreground color of the ring
