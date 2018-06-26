@@ -64,7 +64,7 @@ rv.setCallback(new AVCallback() {
       tv.setText(progress + "");
     }
 });
-// set range maped progress callback [-20, 30] map to => [0, 100]
+// set range mapped progress callback [0, 100] map to => [-20, 30]
 rv.setCallback(new AVRangeMapCallback(-20, 30) {
     @Override
     public void step(int progress) {
@@ -76,18 +76,18 @@ rv.setCallback(new AVRangeMapCallback(-20, 30) {
 
 # attrs
 
-name | type | desc
-:-: | :-: | :-:
-strokeWidth | reference,dimension | dp, @dimen/
-backgroundColor | reference,color | #ffffff, @color/
-foregroundColor | reference,color | #ffffff, @color/
-startAngle | integer | 0~360
-animateDuration | integer | number
-sweepAngle | integer | 0~360
-shadowRadius | integer | number
-onStep | string,reference | function
-shadowEnable | boolean | true,false
-touchable | boolean | true,false
-shadowColor | reference,color | #ffffff, @color/
-animateType | enum | linear,accelerate,decelerate
-strokeCap | enum | round,butt,square
+name | type | sample |description
+:- | :-: | :-:
+strokeWidth | `reference`&nbsp;`dimension` | 8dp&nbsp;@dimen/ | the ring width
+backgroundColor | `reference`&nbsp;`color` | #DADADE&nbsp;@color/ | the background color of the ring
+foregroundColor | `reference`&nbsp;`color` | #00BCD3&nbsp;@color/ | the foreground color of the ring
+startAngle | `integer` | 0~360 | the start angle of the ring
+animateDuration | `integer` | number | the duration of the animation as the circle changes its progress
+sweepAngle | `integer` | 0~360 | the sweep angle of the ring
+shadowRadius | `integer` | number | the shadow radius of the ring
+onStep | `string`&nbsp;`reference` | onStep&nbsp;@string/ | if not setCallback then you can config onStep (see example)
+shadowEnable | `boolean` | true&nbsp;false | shadow enabled
+touchable | `boolean` | true&nbsp;false | enable touch control
+shadowColor | `reference`&nbsp;`color` | #33333333&nbsp;@color/ | the color of shadow
+animateType | `enum` | **linear**&nbsp;**accelerate**&nbsp;**decelerate** | animation interceptor
+strokeCap | `enum` | **round**&nbsp;**butt**&nbsp;**square** | paint cap ● round  ▎butt ■ square
