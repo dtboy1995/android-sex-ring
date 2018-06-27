@@ -19,13 +19,11 @@ implementation 'com.github.dtboy1995:android-sex-ring:0.2.1'
 
 # screenshot
 
-- core usage
+#### ● core usage &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● demo gif
 
-![android-sex-ring](art/desc.jpg)
+![android-sex-ring](art/desc.jpg)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;![android-sex-ring](art/screenshot.gif)
 
-- demo gif
 
-![android-sex-ring](art/screenshot.gif)
 
 # usage
 - XML
