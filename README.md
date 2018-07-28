@@ -59,7 +59,7 @@ rv.setCallback(new AVCallback() {
     @Override
     public void step(int progress) {
       // progress 0~100
-      tv.setText(progress + "");
+      tv.setText(String.valueOf(progress));
     }
 });
 // set range mapped progress callback [0, 100] map to => [-20, 30]
@@ -67,7 +67,7 @@ rv.setCallback(new AVRangeMapCallback(-20, 30) {
     @Override
     public void step(int progress) {
       // progress -20~30
-      tv.setText(progress + "");
+      tv.setText(String.valueOf(progress));
     }
 });
 ```
