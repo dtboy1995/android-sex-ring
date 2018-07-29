@@ -1,7 +1,7 @@
 # ![android-sex-ring](art/logo.png)
 
 # android-sex-ring [![Build Status](https://travis-ci.org/dtboy1995/android-sex-ring.svg?branch=master)](https://travis-ci.org/dtboy1995/android-sex-ring)
-:art: a android ring view that can sweep angle
+:sailboat: a android ring view that can sweep angle
 
 # install
 - add to your project gradle file
