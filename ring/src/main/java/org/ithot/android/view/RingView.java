@@ -328,6 +328,16 @@ public class RingView extends View {
         go(progress, false);
     }
 
+    public void go(int progress, int min, int max) {
+        float unit = (max - min) / MAX_PROGRESS;
+        go((int) ((progress - min) / unit));
+    }
+
+    public void go(int progress, int min, int max, boolean animate) {
+        float unit = (max - min) / MAX_PROGRESS;
+        go((int) ((progress - min) / unit), true);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

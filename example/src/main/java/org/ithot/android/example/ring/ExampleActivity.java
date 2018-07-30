@@ -29,6 +29,10 @@ public class ExampleActivity extends Activity {
         ring2.go(30, true);
     }
 
+    public void goRangeMapped(View v) {
+        ring1.go(-20, -20, 30, true);
+    }
+
     public void step1(int progress) {
         tv1.setText(String.valueOf(progress));
     }

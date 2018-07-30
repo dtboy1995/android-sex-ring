@@ -53,12 +53,22 @@
     <Button
         android:onClick="go1"
         android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:text="GO"
         android:textColor="#646464"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
+
+    <Button
+        android:onClick="goRangeMapped"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="GO Range Mapped"
+        android:textColor="#646464"
+        android:textSize="17sp" />
 
     <RelativeLayout
         android:layout_width="150dp"
@@ -108,10 +118,10 @@
     <Button
         android:onClick="go2"
         android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:text="GO"
         android:textColor="#646464"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 </LinearLayout>

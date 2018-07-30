@@ -14,7 +14,7 @@ repositories {
 - add to your module gradle file
 
 ```gradle
-implementation 'com.github.dtboy1995:android-sex-ring:0.2.2'
+implementation 'com.github.dtboy1995:android-sex-ring:0.2.3'
 ```
 
 # screenshot
@@ -54,20 +54,22 @@ implementation 'com.github.dtboy1995:android-sex-ring:0.2.2'
 RingView rv = (RingView)findViewById(R.id.ring_view);
 // set progress - true is animated
 rv.go(20, true);
+// set prgress range mapped
+rv.go(10, -20, 30, true);
 // set progress callback
 rv.setCallback(new AVCallback() {
+    // progress 0~100
     @Override
     public void step(int progress) {
-      // progress 0~100
-      tv.setText(String.valueOf(progress));
+
     }
 });
 // set range mapped progress callback [0, 100] map to => [-20, 30]
 rv.setCallback(new AVRangeMapCallback(-20, 30) {
+    // progress -20~30
     @Override
     public void step(int progress) {
-      // progress -20~30
-      tv.setText(String.valueOf(progress));
+
     }
 });
 ```
