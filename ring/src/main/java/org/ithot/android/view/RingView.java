@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,7 +22,6 @@ import android.view.animation.LinearInterpolator;
 import org.ithot.android.R;
 import org.ithot.android.view.listener.AVBaseCallback;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class RingView extends View {
@@ -47,7 +47,6 @@ public class RingView extends View {
     private static final int DEFAULT_SHADOW_COLOR = Color.parseColor("#374046");
 
     private static final Class<? extends TimeInterpolator> DEFAULT_INTERPOLATOR = LinearInterpolator.class;
-    private boolean DEBUG = false;
 
     private Paint backgroundPaint;
     private Paint foregroundPaint;
@@ -63,10 +62,10 @@ public class RingView extends View {
     private boolean canGo = true;
     private AVBaseCallback callback;
     private Method onStep;
-    private long timer;
-    private int longPressTimer = 500;
+    private static final int LONG_PRESS_TIMER = 500;
     private float preX;
     private float preY;
+    private int threshold = 30;
 
     public RingView(Context context) {
         super(context);
@@ -83,21 +82,39 @@ public class RingView extends View {
         init(attrs);
     }
 
+    private Handler handler = new Handler();
+    private boolean unPerformLongClick;
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
+    }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            performLongClick();
+            unPerformLongClick = false;
+        }
+    };
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+        float x = event.getX();
+        float y = event.getY();
+
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                timer = System.currentTimeMillis();
-                setPressed(true);
+                handler.removeCallbacks(runnable);
+                unPerformLongClick = true;
+                handler.postDelayed(runnable, LONG_PRESS_TIMER);
+                if (touchable) {
+                    supply(event);
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
-                float x = event.getX();
-                float y = event.getY();
-                boolean isInside = (x > 0 && x < getWidth() && y > 0 && y < getHeight());
-                if (isPressed() != isInside) {
-                    setPressed(isInside);
-                }
-                if (Math.abs(x - preX) > 10 || Math.abs(y - preY) > 10) {
+                if (Math.abs(x - preX) > threshold || Math.abs(y - preY) > threshold) {
                     if (touchable) {
                         supply(event);
                     }
@@ -107,16 +124,12 @@ public class RingView extends View {
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
-                setPressed(false);
+                unPerformLongClick = true;
+                handler.removeCallbacks(runnable);
                 break;
             case MotionEvent.ACTION_UP:
-                if (isPressed()) {
-                    setPressed(false);
-                    if (System.currentTimeMillis() - timer > longPressTimer) {
-                        performLongClick();
-                    } else {
-                        performClick();
-                    }
+                if (unPerformLongClick) {
+                    performClick();
                 }
                 break;
         }
@@ -125,10 +138,6 @@ public class RingView extends View {
 
     public void setTouchable(boolean touchable) {
         this.touchable = touchable;
-    }
-
-    public void setLongPressTimer(int longPressTimer) {
-        this.longPressTimer = longPressTimer;
     }
 
     private void supply(MotionEvent event) {
@@ -163,9 +172,7 @@ public class RingView extends View {
         if (angle > real + sweepAngle || angle < real) {
             return;
         }
-        int p = (int) (MAX_PROGRESS * (angle - real) / sweepAngle);
-        debug(p);
-        setProgress(p);
+        setProgress((int) Math.round(MAX_PROGRESS * (angle - real) / sweepAngle));
     }
 
     void init(AttributeSet attrs) {
@@ -341,9 +348,7 @@ public class RingView extends View {
     }
 
     private void debug(Object trace) {
-        if (DEBUG) {
-            Log.d(TAG, trace.toString());
-        }
+        Log.d(TAG, trace.toString());
     }
 
     private int calDegree() {
