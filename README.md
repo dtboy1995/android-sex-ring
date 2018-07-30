@@ -14,7 +14,7 @@ repositories {
 - add to your module gradle file
 
 ```gradle
-implementation 'com.github.dtboy1995:android-sex-ring:0.2.1'
+implementation 'com.github.dtboy1995:android-sex-ring:0.2.2'
 ```
 
 # screenshot
