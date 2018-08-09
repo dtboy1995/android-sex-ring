@@ -1,7 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
 group='org.ithot'
+
+publish {
+    userOrg = "dtboy"
+    groupId = "org.ithot.android.view"
+    artifactId = "ring"
+    publishVersion = "0.2.3"
+    desc = "a android ring view that can sweep angle"
+    website = "https://github.com/dtboy1995/android-sex-ring"
+}
 
 android {
     compileSdkVersion 26

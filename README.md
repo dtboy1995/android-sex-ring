@@ -4,6 +4,7 @@
 :sailboat: a android ring view that can sweep angle
 
 # install
+### jitpack
 - add to your project gradle file
 
 ```gradle
@@ -16,14 +17,16 @@ repositories {
 ```gradle
 implementation 'com.github.dtboy1995:android-sex-ring:0.2.3'
 ```
+### jcenter
+```gradle
+implementation 'org.ithot.android.view:ring:0.2.3'
+```
 
 # screenshot
 
 #### ● core usage &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● demo gif
 
 ![android-sex-ring](art/desc.jpg)&nbsp;![android-sex-ring](art/screenshot.gif)
-
-
 
 # usage
 - XML
