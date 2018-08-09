@@ -24,9 +24,10 @@ implementation 'org.ithot.android.view:ring:0.2.3'
 
 # screenshot
 
-#### ● core usage &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ● demo gif
-
-![android-sex-ring](art/desc.jpg)&nbsp;![android-sex-ring](art/screenshot.gif)
+### guide
+![android-sex-ring](art/desc.jpg)
+### demo
+![android-sex-ring](art/screenshot.gif)
 
 # usage
 - XML
