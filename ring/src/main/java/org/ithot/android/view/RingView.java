@@ -141,8 +141,9 @@ public class RingView extends View {
     }
 
     private void supply(MotionEvent event) {
-        int width = (int) ovalRectF.width();
-        int height = (int) ovalRectF.height();
+        float sw = foregroundPaint.getStrokeWidth();
+        int width = (int) (ovalRectF.width() + sw);
+        int height = (int) (ovalRectF.height() + sw);
         int halfW = width / 2;
         int halfH = height / 2;
         int centerX = (int) ovalRectF.centerX();
@@ -150,7 +151,7 @@ public class RingView extends View {
         float x = event.getX();
         float y = event.getY();
         int distance = (int) Math.sqrt(Math.pow(y - centerY, 2) + Math.pow(x - centerX, 2));
-        if (distance > halfW + foregroundPaint.getStrokeWidth() || distance < halfW - foregroundPaint.getStrokeWidth() * 5) {
+        if (distance > halfW || distance < (halfW - foregroundPaint.getStrokeWidth()*1.5)) {
             return;
         }
         //
