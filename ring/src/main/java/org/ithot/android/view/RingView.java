@@ -141,9 +141,8 @@ public class RingView extends View {
     }
 
     private void supply(MotionEvent event) {
-        float sw = foregroundPaint.getStrokeWidth();
-        int width = (int) (ovalRectF.width() + sw);
-        int height = (int) (ovalRectF.height() + sw);
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
         int halfW = width / 2;
         int halfH = height / 2;
         int centerX = (int) ovalRectF.centerX();
@@ -170,6 +169,12 @@ public class RingView extends View {
             }
         }
         int real = startAngle - DEFAULT_START_ANGLE;
+        boolean angleCross = real + sweepAngle > 360;
+        if (angleCross) {
+            if (angle > (real + sweepAngle) % 360 && angle < real)
+                return;
+            else if( angle < real)
+                angle +=360;
         if (angle > real + sweepAngle || angle < real) {
             return;
         }
